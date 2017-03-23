@@ -1,0 +1,7 @@
+<div #container [ngStyle]="{'height.px': height}" style="overflow: auto" (scroll)="updateDisplay()">
+    <div style="display: flex; flex-direction: column" [ngStyle]="{'height.px': actualHeight}">
+        <div template="ngFor let item of displayItems">
+            <div style="position: absolute" [ngStyle]="{'padding-left.px': item.left, 'height.px': itemHeight, 'top': }">{{item.title}}</div>
+        </div>
+    </div>
+</div>

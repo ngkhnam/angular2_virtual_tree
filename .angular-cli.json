@@ -11,15 +11,15 @@
         "assets",
         "favicon.ico"
       ],
-      "index": "index.html",
-      "main": "main.ts",
-      "polyfills": "polyfills.ts",
-      "test": "test.ts",
-      "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "tsconfig.spec.json",
-      "prefix": "app",
+      "index": "../example/index.html",
+      "main": "../example/main.ts",
+      "polyfills": "../example/polyfills.ts",
+      "test": "../example/test.ts",
+      "tsconfig": "../example/tsconfig.app.json",
+      "testTsconfig": "../example/tsconfig.spec.json",
+      "prefix": "ng",
       "styles": [
-        "styles.css"
+        "../example/styles.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -36,10 +36,10 @@
   },
   "lint": [
     {
-      "project": "src/tsconfig.app.json"
+      "project": "example/tsconfig.app.json"
     },
     {
-      "project": "src/tsconfig.spec.json"
+      "project": "example/tsconfig.spec.json"
     },
     {
       "project": "e2e/tsconfig.e2e.json"
