@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { TreeNode } from './tree-node';
 import { InternalTreeNode } from './internal-tree-node';
 
@@ -8,15 +8,16 @@ import { InternalTreeNode } from './internal-tree-node';
   styleUrls: ['./virtual-tree.component.css']
 })
 export class VirtualTreeComponent implements OnInit {
-  displayItems: Array<any> = [];
+  displayItems: Array<InternalTreeNode> = [];
   items: Array<InternalTreeNode> = [];
-  itemHeight:number = 40;
+  itemHeight: number = 40;
   itemsPerViewport: number = 5;
   totalItems: number;
   styles: any;
   internalTree: InternalTreeNode;
   startIndex: number = 0;
   actualHeight: number = 0;
+  startTop: number = 0;
 
 
   @ViewChild("container") container: ElementRef;
@@ -24,22 +25,23 @@ export class VirtualTreeComponent implements OnInit {
   @Input() tree: InternalTreeNode;
   @Input() showRoot: boolean = false;
   @Input() height: number = 100;
-  
+
 
   constructor() { }
 
   ngOnInit() {
     this.tree.display = this.showRoot;
     this.init(this.tree, 0);
+    this.actualHeight = this.items.length * this.itemHeight;
+    this.itemsPerViewport = Math.floor(this.height / this.itemHeight) + 2;
     this.initDisplayItems();
   }
 
   init(tree: InternalTreeNode, level: number) {
     tree.left = level * 20;
-    this.items.push(tree);
-    console.log("height");
-    if (tree.display)
-      this.actualHeight += this.itemHeight;
+    if (tree.display) {
+      this.items.push(tree);
+    }
     if (tree.children && tree.children.length)
       tree.children.forEach(n => {
         n.display = tree.open;
@@ -49,12 +51,11 @@ export class VirtualTreeComponent implements OnInit {
 
   initDisplayItems() {
     for (let i = this.startIndex; i < this.items.length; i++) {
-      if (this.items[i].display) {
-        this.displayItems.push(this.items[i]);
-        if (this.displayItems.length >= this.itemsPerViewport) {
-          this.startIndex = i;
-          break;
-        }
+      this.displayItems.push(this.items[i]);
+      this.displayItems[i].top = i * this.itemHeight;
+      if (this.displayItems.length >= this.itemsPerViewport) {
+        this.startIndex = i;
+        break;
       }
     }
   }
@@ -96,32 +97,15 @@ export class VirtualTreeComponent implements OnInit {
   }
 
   updateDisplay() {
-    console.log("scroll");
     let _container: HTMLElement = this.container.nativeElement;
-    var showFromIndex = Math.max(Math.floor( _container.scrollTop/ this.itemHeight) - this.itemsPerViewport, 0);
+    var showFromIndex = Math.max(Math.floor(_container.scrollTop / this.itemHeight), 0);
     if (this.startIndex != showFromIndex) {
-      this.startIndex = Math.min(showFromIndex, this.startIndex);
+      this.startIndex = showFromIndex;
       let count = 0;
       for (let i = this.startIndex; i < this.items.length && count < this.displayItems.length; i++) {
-        if (this.items[i].display) {
-          this.displayItems[count] = this.items[i];
-          count++;
-        }
-      }
-    }
-  }
-
-  updateDisplayItems() {
-    var showFromIndex = Math.max(Math.floor(this.scrollTop / this.itemHeight) - this.itemsPerViewport, 0);
-    if (this.startIndex != showFromIndex) {
-      let numberItemsNeedtoAdd = Math.abs(showFromIndex - this.startIndex);
-      if (showFromIndex < this.startIndex) {
-        //scrop up
-        this.onScrollUp(numberItemsNeedtoAdd);
-      }
-      else {
-        //scroll down
-        this.onScrollDown(numberItemsNeedtoAdd);
+        this.displayItems[count] = this.items[i];
+        this.displayItems[count].top = count == 0 ? (this.startIndex + count) * this.itemHeight : this.displayItems[count - 1].top + this.itemHeight;
+        count++;
       }
     }
   }

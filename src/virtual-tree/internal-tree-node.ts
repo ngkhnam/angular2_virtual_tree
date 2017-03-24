@@ -6,4 +6,5 @@ export class InternalTreeNode extends TreeNode{
     id: string;
     display: boolean;
     level: number;
+    top: number;
 }
