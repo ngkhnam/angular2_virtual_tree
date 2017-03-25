@@ -7,4 +7,5 @@ export class InternalTreeNode extends TreeNode{
     display: boolean;
     level: number;
     top: number;
+    index: number;
 }

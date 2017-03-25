@@ -10,7 +10,7 @@ import { InternalTreeNode } from './internal-tree-node';
 export class VirtualTreeComponent implements OnInit {
   displayItems: Array<InternalTreeNode> = [];
   items: Array<InternalTreeNode> = [];
-  itemHeight: number = 40;
+  itemHeight: number = 20;
   itemsPerViewport: number = 5;
   totalItems: number;
   styles: any;
@@ -53,58 +53,43 @@ export class VirtualTreeComponent implements OnInit {
     for (let i = this.startIndex; i < this.items.length; i++) {
       this.displayItems.push(this.items[i]);
       this.displayItems[i].top = i * this.itemHeight;
+      this.displayItems[i].index = i;
       if (this.displayItems.length >= this.itemsPerViewport) {
-        this.startIndex = i;
         break;
       }
     }
   }
 
-  onOpenNode(node: InternalTreeNode) {
+  onOpenNode(node: InternalTreeNode, index: number) {
     node.open = true;
-    this.height += node.children.length * this.itemHeight;
+    this.actualHeight += node.children.length * this.itemHeight;
+    node.children.forEach((x, i) => {
+      this.items.splice(index + 1+ i, 0, x);
+    });
+    this.updateDisplay(true);
   }
 
-  onCloseNode(node: InternalTreeNode) {
+  onCloseNode(node: InternalTreeNode, index: number) {
     node.open = false;
-    this.height -= node.children.length * this.itemHeight;
+    this.actualHeight -= node.children.length * this.itemHeight;
+    this.items.splice(index + 1, node.children.length);
+    this.updateDisplay(true);
   }
 
-  onScrollDown(numberItemsNeedtoAdd: number) {
-    this.displayItems.splice(0, numberItemsNeedtoAdd);
-    for (let i = this.startIndex + this.itemsPerViewport + 1; i < this.items.length; i++) {
-      if (this.items[i].display) {
-        this.displayItems.splice(0, 0, this.items[i]);
-        if (this.displayItems.length >= this.itemsPerViewport) {
-          this.startIndex = i;
-          break;
-        }
-      }
-    }
+  onSelectionChange(node: InternalTreeNode){
+    alert(node.label);
   }
 
-  onScrollUp(numberItemsNeedtoAdd: number) {
-    this.displayItems.splice(this.displayItems.length - 1 - numberItemsNeedtoAdd, numberItemsNeedtoAdd);
-    for (let i = this.startIndex - 1; i > 0; i--) {
-      if (this.items[i].display) {
-        this.displayItems.push(this.items[i]);
-        if (this.displayItems.length >= this.itemsPerViewport) {
-          this.startIndex = i;
-          break;
-        }
-      }
-    }
-  }
-
-  updateDisplay() {
+  updateDisplay(force: boolean) {
     let _container: HTMLElement = this.container.nativeElement;
     var showFromIndex = Math.max(Math.floor(_container.scrollTop / this.itemHeight), 0);
-    if (this.startIndex != showFromIndex) {
-      this.startIndex = showFromIndex;
+    if (this.startIndex != showFromIndex || force) {
+      this.startIndex = force? this.startIndex : showFromIndex;
       let count = 0;
       for (let i = this.startIndex; i < this.items.length && count < this.displayItems.length; i++) {
         this.displayItems[count] = this.items[i];
-        this.displayItems[count].top = count == 0 ? (this.startIndex + count) * this.itemHeight : this.displayItems[count - 1].top + this.itemHeight;
+        this.displayItems[count].index = i;
+        this.displayItems[count].top = count == 0 ? i * this.itemHeight : this.displayItems[count - 1].top + this.itemHeight;
         count++;
       }
     }

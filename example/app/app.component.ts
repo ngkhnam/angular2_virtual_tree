@@ -37,8 +37,8 @@ export class AppComponent {
       var child = { title: "child " + i , children: [], open: false};
       var hasChildren = Math.random();
       if (hasChildren) {
-        child.open = true;
-        for (let j = 0; j < 100; j++) {
+        child.open = false;
+        for (let j = 0; j < 20; j++) {
           child.children.push({title: "child " + i + "-" + j});
         }
       }
