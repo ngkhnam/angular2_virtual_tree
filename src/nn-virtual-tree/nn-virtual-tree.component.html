@@ -1,0 +1,15 @@
+<div #container [ngStyle]="{'height.px': height}" style="overflow: auto" (scroll)="updateDisplay()">
+    <div style="position: relative;display: flex; flex-direction: column" [ngStyle]="{'height.px': actualHeight}">
+        <div template="ngFor let item of displayItems; let i = index" style="position: absolute; display: flex; flex-direction: row"
+            [ngStyle]="{'padding-left.px': item.left, 'height.px': itemHeight, 'top.px': item.top}">
+            <div (click)="onClickToogleIcon(item)">
+                <ng-container *ngTemplateOutlet="nnTreeToogleIcon; context : {item: item}"></ng-container>
+            </div>
+            <div (click)="onClickItem(item)">
+                <ng-container *ngTemplateOutlet="nnTreeItem; context: {item: item}"></ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+

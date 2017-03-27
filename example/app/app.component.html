@@ -1,1 +1,8 @@
-<ng-virtual-tree [tree]="generateTree()" [height]="250"></ng-virtual-tree>
+<nn-virtual-tree [tree]="generateTree()" [height]="250">
+    <template let-node="item" #nnTreeItem>
+        <nn-tree-item [node]="node"></nn-tree-item>
+    </template>
+    <template let-node="item" #nnTreeToogleIcon>
+        <nn-tree-toogle-icon [node]="node"></nn-tree-toogle-icon>
+    </template>
+</nn-virtual-tree>

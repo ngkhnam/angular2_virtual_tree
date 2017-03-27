@@ -32,14 +32,14 @@ export class AppComponent {
   }
 
   generateTree(): any {
-    let tree = { title: "root", children: [], open: true };
+    let tree = { label: "root", children: [], open: true };
     for (let i = 0; i < 1000; i++) {
-      var child = { title: "child " + i , children: [], open: false};
+      var child = { label: "child " + i , children: [], open: false};
       var hasChildren = Math.random();
       if (hasChildren) {
         child.open = false;
         for (let j = 0; j < 20; j++) {
-          child.children.push({title: "child " + i + "-" + j});
+          child.children.push({label: "child " + i + "-" + j});
         }
       }
       tree.children.push(child);

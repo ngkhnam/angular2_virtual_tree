@@ -1,11 +1,11 @@
-import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, ElementRef, EventEmitter, ContentChild, TemplateRef} from '@angular/core';
 import { TreeNode } from './tree-node';
 import { InternalTreeNode } from './internal-tree-node';
 
 @Component({
-  selector: 'ng-virtual-tree',
-  templateUrl: './virtual-tree.component.html',
-  styleUrls: ['./virtual-tree.component.css']
+  selector: 'nn-virtual-tree',
+  templateUrl: './nn-virtual-tree.component.html',
+  styleUrls: ['./nn-virtual-tree.component.css']
 })
 export class VirtualTreeComponent implements OnInit {
   displayItems: Array<InternalTreeNode> = [];
@@ -18,6 +18,10 @@ export class VirtualTreeComponent implements OnInit {
   startIndex: number = 0;
   actualHeight: number = 0;
   startTop: number = 0;
+  currSelectedItem: InternalTreeNode = null;
+
+  // Events
+  selectionchange: EventEmitter<InternalTreeNode> =  new EventEmitter();
 
 
   @ViewChild("container") container: ElementRef;
@@ -25,6 +29,8 @@ export class VirtualTreeComponent implements OnInit {
   @Input() tree: InternalTreeNode;
   @Input() showRoot: boolean = false;
   @Input() height: number = 100;
+  @ContentChild("nnTreeItem") nnTreeItem: TemplateRef<any>;
+  @ContentChild("nnTreeToogleIcon") nnTreeToogleIcon: TemplateRef<any>;
 
 
   constructor() { }
@@ -60,26 +66,6 @@ export class VirtualTreeComponent implements OnInit {
     }
   }
 
-  onOpenNode(node: InternalTreeNode, index: number) {
-    node.open = true;
-    this.actualHeight += node.children.length * this.itemHeight;
-    node.children.forEach((x, i) => {
-      this.items.splice(index + 1+ i, 0, x);
-    });
-    this.updateDisplay(true);
-  }
-
-  onCloseNode(node: InternalTreeNode, index: number) {
-    node.open = false;
-    this.actualHeight -= node.children.length * this.itemHeight;
-    this.items.splice(index + 1, node.children.length);
-    this.updateDisplay(true);
-  }
-
-  onSelectionChange(node: InternalTreeNode){
-    alert(node.label);
-  }
-
   updateDisplay(force: boolean) {
     let _container: HTMLElement = this.container.nativeElement;
     var showFromIndex = Math.max(Math.floor(_container.scrollTop / this.itemHeight), 0);
@@ -92,6 +78,34 @@ export class VirtualTreeComponent implements OnInit {
         this.displayItems[count].top = count == 0 ? i * this.itemHeight : this.displayItems[count - 1].top + this.itemHeight;
         count++;
       }
+    }
+  }
+
+  onClickToogleIcon(node: InternalTreeNode){
+    node.open = !node.open;
+    node.open ? this.onOpenNode(node) : this.onCloseNode(node); 
+  }
+
+  onOpenNode(node: InternalTreeNode) {
+    node.open = true;
+    this.actualHeight += node.children.length * this.itemHeight;
+    node.children.forEach((x, i) => {
+      this.items.splice(node.index + 1+ i, 0, x);
+    });
+    this.updateDisplay(true);
+  }
+
+  onCloseNode(node: InternalTreeNode) {
+    node.open = false;
+    this.actualHeight -= node.children.length * this.itemHeight;
+    this.items.splice(node.index + 1, node.children.length);
+    this.updateDisplay(true);
+  }
+
+  onClickItem(node: InternalTreeNode){
+    if(this.currSelectedItem != node){
+      this.currSelectedItem = node;
+      this.selectionchange.emit(node);
     }
   }
 }
