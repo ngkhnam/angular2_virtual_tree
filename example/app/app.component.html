@@ -1,8 +1,8 @@
-<nn-virtual-tree [tree]="generateTree()" [height]="250">
-    <template let-node="item" #nnTreeItem>
+<nn-virtual-tree (changeselection)="onChangeSelection($event)" [tree]="generateTree()" [height]="250" [width]="300">
+    <ng-template let-node="item" #nnTreeItem>
         <nn-tree-item [node]="node"></nn-tree-item>
-    </template>
-    <template let-node="item" #nnTreeToogleIcon>
+    </ng-template>
+    <ng-template let-node="item" #nnTreeToogleIcon>
         <nn-tree-toogle-icon [node]="node"></nn-tree-toogle-icon>
-    </template>
+    </ng-template>
 </nn-virtual-tree>

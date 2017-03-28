@@ -46,4 +46,8 @@ export class AppComponent {
     }
     return tree;
   }
+
+  onChangeSelection(node: any){
+    alert(node.label);
+  }
 }

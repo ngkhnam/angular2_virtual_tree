@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, ElementRef, EventEmitter, ContentChild, TemplateRef} from '@angular/core';
+import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, ElementRef, EventEmitter, ContentChild, TemplateRef, Output} from '@angular/core';
 import { TreeNode } from './tree-node';
 import { InternalTreeNode } from './internal-tree-node';
 
@@ -8,6 +8,10 @@ import { InternalTreeNode } from './internal-tree-node';
   styleUrls: ['./nn-virtual-tree.component.css']
 })
 export class VirtualTreeComponent implements OnInit {
+
+  @Input() width:number;
+  @Output() changeselection:EventEmitter<InternalTreeNode> = new EventEmitter();
+
   displayItems: Array<InternalTreeNode> = [];
   items: Array<InternalTreeNode> = [];
   itemHeight: number = 20;
@@ -19,15 +23,13 @@ export class VirtualTreeComponent implements OnInit {
   actualHeight: number = 0;
   startTop: number = 0;
   currSelectedItem: InternalTreeNode = null;
-
-  // Events
-  selectionchange: EventEmitter<InternalTreeNode> =  new EventEmitter();
-
-
+  overplayWidth: number;
+  overplayTop: number;
+  isShowOverplay: number;
   @ViewChild("container") container: ElementRef;
   @HostBinding("scrollTop") scrollTop;
   @Input() tree: InternalTreeNode;
-  @Input() showRoot: boolean = false;
+  @Input() showRoot: boolean = true;
   @Input() height: number = 100;
   @ContentChild("nnTreeItem") nnTreeItem: TemplateRef<any>;
   @ContentChild("nnTreeToogleIcon") nnTreeToogleIcon: TemplateRef<any>;
@@ -41,6 +43,8 @@ export class VirtualTreeComponent implements OnInit {
     this.actualHeight = this.items.length * this.itemHeight;
     this.itemsPerViewport = Math.floor(this.height / this.itemHeight) + 2;
     this.initDisplayItems();
+    this.updateItemWidth();
+    
   }
 
   init(tree: InternalTreeNode, level: number) {
@@ -92,6 +96,7 @@ export class VirtualTreeComponent implements OnInit {
     node.children.forEach((x, i) => {
       this.items.splice(node.index + 1+ i, 0, x);
     });
+    this.updateItemWidth();
     this.updateDisplay(true);
   }
 
@@ -99,13 +104,31 @@ export class VirtualTreeComponent implements OnInit {
     node.open = false;
     this.actualHeight -= node.children.length * this.itemHeight;
     this.items.splice(node.index + 1, node.children.length);
+    this.updateItemWidth();
     this.updateDisplay(true);
   }
 
   onClickItem(node: InternalTreeNode){
     if(this.currSelectedItem != node){
       this.currSelectedItem = node;
-      this.selectionchange.emit(node);
+      this.changeselection.emit(node);
     }
+  }
+
+  updateItemWidth(){
+    if(this.height < this.actualHeight){
+      this.overplayWidth = this.width - 18;
+    }
+    else{
+      this.overplayWidth - this.width;
+    }
+  }
+
+  onMouseEnterItem(index: number){
+    this.overplayTop = this.itemHeight*index;
+  }
+
+  onMouseLeave(){
+    this.isShowOverplay = false;
   }
 }

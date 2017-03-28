@@ -1,4 +1,4 @@
-# Virtual Tree for Angular 2
+# Virtual Tree for Angular 2+
 
 Support feature:
 - Easy for use.
