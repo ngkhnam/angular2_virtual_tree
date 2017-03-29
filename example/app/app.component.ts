@@ -48,6 +48,6 @@ export class AppComponent {
   }
 
   onChangeSelection(node: any){
-    alert(node.label);
+    //alert(node.label);
   }
 }

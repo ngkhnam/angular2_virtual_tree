@@ -10,6 +10,7 @@ import { InternalTreeNode } from './internal-tree-node';
 export class VirtualTreeComponent implements OnInit {
 
   @Input() width:number;
+  @Input() selectParent:boolean = false;
   @Output() changeselection:EventEmitter<InternalTreeNode> = new EventEmitter();
 
   displayItems: Array<InternalTreeNode> = [];
@@ -23,9 +24,6 @@ export class VirtualTreeComponent implements OnInit {
   actualHeight: number = 0;
   startTop: number = 0;
   currSelectedItem: InternalTreeNode = null;
-  overplayWidth: number;
-  overplayTop: number;
-  isShowOverplay: number;
   @ViewChild("container") container: ElementRef;
   @HostBinding("scrollTop") scrollTop;
   @Input() tree: InternalTreeNode;
@@ -42,9 +40,7 @@ export class VirtualTreeComponent implements OnInit {
     this.init(this.tree, 0);
     this.actualHeight = this.items.length * this.itemHeight;
     this.itemsPerViewport = Math.floor(this.height / this.itemHeight) + 2;
-    this.initDisplayItems();
-    this.updateItemWidth();
-    
+    this.initDisplayItems();    
   }
 
   init(tree: InternalTreeNode, level: number) {
@@ -96,7 +92,6 @@ export class VirtualTreeComponent implements OnInit {
     node.children.forEach((x, i) => {
       this.items.splice(node.index + 1+ i, 0, x);
     });
-    this.updateItemWidth();
     this.updateDisplay(true);
   }
 
@@ -104,31 +99,24 @@ export class VirtualTreeComponent implements OnInit {
     node.open = false;
     this.actualHeight -= node.children.length * this.itemHeight;
     this.items.splice(node.index + 1, node.children.length);
-    this.updateItemWidth();
     this.updateDisplay(true);
   }
 
   onClickItem(node: InternalTreeNode){
+    if(node.children && node.children.length > 0 && !this.selectParent){
+      return;
+    }
     if(this.currSelectedItem != node){
+      if(this.currSelectedItem)
+        this.currSelectedItem.selected = false;
       this.currSelectedItem = node;
+      this.currSelectedItem.selected = true;
       this.changeselection.emit(node);
     }
   }
 
-  updateItemWidth(){
-    if(this.height < this.actualHeight){
-      this.overplayWidth = this.width - 18;
-    }
-    else{
-      this.overplayWidth - this.width;
-    }
-  }
-
-  onMouseEnterItem(index: number){
-    this.overplayTop = this.itemHeight*index;
-  }
-
-  onMouseLeave(){
-    this.isShowOverplay = false;
+  onDblclickItem(node: InternalTreeNode){
+    if(node.children && node.children.length)
+      this.onClickToogleIcon(node);
   }
 }

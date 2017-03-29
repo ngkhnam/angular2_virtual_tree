@@ -1,13 +1,14 @@
 .nn-tree-item{
-    position: absolute; 
+    /*position: absolute; */
     display: flex; 
     flex-direction: row;
     user-select: none;
     cursor: default;
     z-index: 1;
+    white-space: nowrap;
 }
 
-.nn-tree-item:hover{
+.nn-tree-item-selected{
     background-color: dodgerblue;
     color: white;
 }
@@ -16,11 +17,4 @@
     position: relative;
     display: flex; 
     flex-direction: column;
-}
-
-.nn-tree-overplay{
-    background-color: dodgerblue; 
-    position: absolute;
-    z-index: 10; 
-    top: -30px;
 }

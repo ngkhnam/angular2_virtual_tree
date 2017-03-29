@@ -1,15 +1,14 @@
 <div #container [ngStyle]="{'height.px': height, 'width.px': width}" style="overflow: auto" (scroll)="updateDisplay()">
     <div class="nn-tree-content" [ngStyle]="{'height.px': actualHeight}">
         <ng-template ngFor let-item [ngForOf]="displayItems" let-i="index">
-            <div class="nn-tree-item" *ngIf="i < items.length" [ngStyle]="{'padding-left.px': item.left, 'height.px': itemHeight, 'top.px': item.top, 'width.px': itemWidth - item.left}">
+            <div [ngClass]="{'nn-tree-item-selected': item.selected}" class="nn-tree-item" *ngIf="i < items.length" [ngStyle]="{'padding-left.px': item.left, 'height.px': itemHeight, 'margin-top.px': i == 0 ? item.top : 0 , 'width.px': itemWidth - item.left}">
                 <div  (click)="onClickToogleIcon(item)">
                     <ng-container *ngTemplateOutlet="nnTreeToogleIcon; context : {item: item}"></ng-container>
                 </div>
-                <div (click)="onClickItem(item)" (dblclick)="onClickToogleIcon(item)">
+                <div (click)="onClickItem(item)" (dblclick)="onDblclickItem(item)">
                     <ng-container *ngTemplateOutlet="nnTreeItem; context: {item: item}"></ng-container>
                 </div>
             </div>
         </ng-template>
     </div>
 </div>
-<div class="nn-tree-overplay" [ngStyle]="{'height.px': itemHeight, 'width.px': overplayWidth}"></div>

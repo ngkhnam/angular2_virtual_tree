@@ -8,4 +8,5 @@ export class InternalTreeNode extends TreeNode{
     level: number;
     top: number;
     index: number;
+    selected: boolean;
 }
