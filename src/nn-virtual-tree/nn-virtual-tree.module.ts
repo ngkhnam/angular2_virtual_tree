@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VirtualTreeComponent } from './nn-virtual-tree.component';
+import { NNVirtualTreeComponent } from './nn-virtual-tree.component';
 import { NNTreeItem } from './nn-tree-item/nn-tree-item.component';
 import { NNTreeToogleIconComponent } from './nn-tree-toogle-icon/nn-tree-toogle-icon.component';
 
@@ -8,9 +8,9 @@ import { NNTreeToogleIconComponent } from './nn-tree-toogle-icon/nn-tree-toogle-
   imports: [
     CommonModule
   ],
-  declarations: [VirtualTreeComponent, NNTreeItem, NNTreeToogleIconComponent],
-  exports: [VirtualTreeComponent, NNTreeItem, NNTreeToogleIconComponent]
+  declarations: [NNVirtualTreeComponent, NNTreeItem, NNTreeToogleIconComponent],
+  exports: [NNVirtualTreeComponent, NNTreeItem, NNTreeToogleIconComponent]
 })
 export class VirtualTreeModule { }
 
-export {NNTreeItem, NNTreeToogleIconComponent, VirtualTreeComponent};
+export {NNTreeItem, NNTreeToogleIconComponent, NNVirtualTreeComponent};

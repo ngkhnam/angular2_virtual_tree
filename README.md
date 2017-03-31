@@ -5,3 +5,5 @@ Support feature:
 - Single selection.
 - Display a large number of items
 - Customizable toogle icon and tree item 
+- Filtering tree.
+- Lazy loading children of node.

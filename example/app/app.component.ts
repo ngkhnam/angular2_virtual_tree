@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
+import { NNVirtualTreeComponent } from '../../src/nn-virtual-tree/nn-virtual-tree.component';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app works!';
+  value = "";
+  @ViewChild(NNVirtualTreeComponent) treeComponent: NNVirtualTreeComponent;
   tree: any = {
     title: "root",
     open: true,
@@ -49,5 +52,9 @@ export class AppComponent {
 
   onChangeSelection(node: any){
     //alert(node.label);
+  }
+
+  onChangeText(){
+    this.treeComponent.filter(this.value);
   }
 }
