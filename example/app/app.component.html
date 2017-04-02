@@ -2,12 +2,9 @@
     <input type="text" style="width: 200px" [(ngModel)]="value" (ngModelChange)="onChangeText()">
 </div>
 <div style="border: 1px solid black; width: 300px">
-    <nn-virtual-tree (changeselection)="onChangeSelection($event)" [tree]="generateTree()" [height]="250" [width]="300">
-        <ng-template let-node="item" #nnTreeItem>
+    <nn-virtual-tree (changeselection)="onChangeSelection($event)" [root]="root" [showRoot]="false" [height]="250" [width]="300">
+        <ng-template let-node="node" #nnTreeItem>
             <nn-tree-item [node]="node"></nn-tree-item>
-        </ng-template>
-        <ng-template let-node="item" #nnTreeToogleIcon>
-            <nn-tree-toogle-icon [node]="node"></nn-tree-toogle-icon>
         </ng-template>
     </nn-virtual-tree>
 </div>

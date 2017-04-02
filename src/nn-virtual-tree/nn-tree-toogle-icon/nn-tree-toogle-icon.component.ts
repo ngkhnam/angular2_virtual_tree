@@ -4,7 +4,7 @@ import { InternalTreeNode } from '../internal-tree-node';
 @Component({
     selector: 'nn-tree-toogle-icon',
     templateUrl: 'nn-tree-toogle-icon.component.html',
-    styles: ['.toogle-children-open{transform: rotate(90deg);}']
+    styles: ['']
 })
 export class NNTreeToogleIconComponent implements OnInit {
 

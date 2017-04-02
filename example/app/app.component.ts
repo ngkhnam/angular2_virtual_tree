@@ -1,4 +1,4 @@
-import { Component, ViewChild} from '@angular/core';
+import { Component, ViewChild, OnInit} from '@angular/core';
 import { NNVirtualTreeComponent } from '../../src/nn-virtual-tree/nn-virtual-tree.component';
 
 @Component({
@@ -6,32 +6,14 @@ import { NNVirtualTreeComponent } from '../../src/nn-virtual-tree/nn-virtual-tre
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'app works!';
   value = "";
   @ViewChild(NNVirtualTreeComponent) treeComponent: NNVirtualTreeComponent;
-  tree: any = {
-    title: "root",
-    open: true,
-    children: [
-      { title: "child 1", open: false },
-      { title: "child 2", open: false },
-      { title: "child 3", open: false },
-      { title: "child 4", open: false },
-      {
-        title: "child 5", open: true, children: [
-          { title: "child 6" },
-          { title: "child 7" },
-          { title: "child 8" },
-          { title: "child 9" },
-          { title: "child 10" },
-          { title: "child 11" },
-          { title: "child 12" },
-          { title: "child 13" }
+  root = null;
 
-        ]
-      }
-    ]
+  ngOnInit(){
+    this.root = this.generateTree();
   }
 
   generateTree(): any {

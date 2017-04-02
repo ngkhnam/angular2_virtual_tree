@@ -1,12 +1,20 @@
-<div #container [ngStyle]="{'height.px': height, 'width.px': width}" style="overflow: auto" (scroll)="updateDisplay()">
-    <div class="nn-tree-content" [ngStyle]="{'height.px': actualHeight}">
-        <ng-template ngFor let-item [ngForOf]="displayItems" let-i="index">
-            <div [ngClass]="{'nn-tree-item-selected': item.selected}" class="nn-tree-item" *ngIf="i < items.length" [ngStyle]="{'padding-left.px': item.left, 'height.px': itemHeight, 'margin-top.px': i == 0 ? item.top : 0 , 'width.px': itemWidth - item.left}">
-                <div  (click)="onClickToogleIcon(item)">
-                    <ng-container *ngTemplateOutlet="nnTreeToogleIcon; context : {item: item}"></ng-container>
+<div #container [ngStyle]="{'height.px': height, 'width.px': width}" style="overflow: auto" (scroll)="refresh()">
+    <div class="nn-tree-content" [style.height.px]="actualHeight">
+        <ng-template ngFor let-node [ngForOf]="renderNodes" let-i="index">
+            <div [ngClass]="{'nn-tree-item-selected': node.selected}" class="nn-tree-item" *ngIf="i < numDisplayItems" 
+                [ngStyle]="{'padding-left.px': node.left, 'height.px': itemHeight, 'margin-top.px': node.top}">
+                <div (click)="onClickToogleIcon(node)">
+                    <div style="width: 16px">
+                        <img class="toogle-icon"  *ngIf="node.children" [src]='"../../assets/icons/toogle-children.png"' 
+                            [ngClass]="{'toogle-icon-open': node.open}" />
+                    </div>
                 </div>
-                <div (click)="onClickItem(item)" (dblclick)="onDblclickItem(item)">
-                    <ng-container *ngTemplateOutlet="nnTreeItem; context: {item: item}"></ng-container>
+                <div *ngIf="!node.loading" (click)="onClickItem(node)" (dblclick)="onDblclickItem(node)">
+                    <ng-container *ngTemplateOutlet="nnTreeItem; context: {node: node}"></ng-container>
+                </div>
+                <div *ngIf="!node.loading">
+                    <div></div>
+                    <div></div>
                 </div>
             </div>
         </ng-template>

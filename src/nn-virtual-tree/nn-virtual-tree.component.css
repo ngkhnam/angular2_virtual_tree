@@ -18,3 +18,13 @@
     display: flex; 
     flex-direction: column;
 }
+
+.toogle-icon-open{
+    transform: rotate(90deg);
+}
+.toogle-icon{
+    height: 9px; 
+    width: 8px; 
+    margin-top: 4px;
+    margin-left: 4px;
+}
