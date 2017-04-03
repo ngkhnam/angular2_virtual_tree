@@ -12,6 +12,8 @@ export class NNVirtualTreeComponent implements OnInit {
   @Input() width: number;
   @Input() private selectParent: boolean = false;
   @Input() private lazyLoading = false;
+  @Input() loadingText:string = "Loading...";
+  @Input() loadingIcon:string = "../../assets/icons/loading.gif";
   @Input() private showRoot: boolean = true;
   @Input() private height: number = 100;
   @Output() changeselection: EventEmitter<InternalTreeNode> = new EventEmitter();
@@ -151,11 +153,16 @@ export class NNVirtualTreeComponent implements OnInit {
   }
 
   showLoading(node: InternalTreeNode) {
-
+    console.log("loading");
+    this.removeChildren(node);
+    let n = new InternalTreeNode();
+    n.label = "";
+    n.loading = true;
+    this.addChildren(node, [n]);
   }
 
   hideLoading(node: InternalTreeNode) {
-
+    this.removeChildren(node);
   }
 
   addChildren(node: InternalTreeNode, children: InternalTreeNode[]) {
@@ -167,7 +174,7 @@ export class NNVirtualTreeComponent implements OnInit {
       x.index = node.index + i + 1;
       x.left = node.left + this.paddingLeft;
       x.top = node.top + (count + 1) * this.itemHeight;
-      if (x.label.search(this.filterText) >= 0) {
+      if (x.label != undefined && x.label.search(this.filterText) >= 0) {
         this.displayNodes.splice(node.index + 1 + count++, 0, x);
         this.actualHeight += this.itemHeight;
       }

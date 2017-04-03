@@ -34,6 +34,8 @@ export class AppComponent implements OnInit{
 
   onChangeSelection(node: any){
     //alert(node.label);
+    console.log("change selection");
+    this.treeComponent.showLoading(node);
   }
 
   onChangeText(){
