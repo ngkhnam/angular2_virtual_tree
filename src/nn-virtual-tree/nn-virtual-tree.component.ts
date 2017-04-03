@@ -12,8 +12,8 @@ export class NNVirtualTreeComponent implements OnInit {
   @Input() width: number;
   @Input() private selectParent: boolean = false;
   @Input() private lazyLoading = false;
-  @Input() loadingText:string = "Loading...";
-  @Input() loadingIcon:string = "../../assets/icons/loading.gif";
+  @Input() loadingText: string = "Loading...";
+  @Input() loadingIcon: string = "../../assets/icons/loading.gif";
   @Input() private showRoot: boolean = true;
   @Input() private height: number = 100;
   @Output() changeselection: EventEmitter<InternalTreeNode> = new EventEmitter();
@@ -91,7 +91,7 @@ export class NNVirtualTreeComponent implements OnInit {
   private onOpenNode(node: InternalTreeNode) {
     node.open = true;
     if (!this.lazyLoading) {
-      this.addChildren(node, node.children);
+      this.addRenderedChildren(node, node.children);
     }
     this.openNode.emit(node);
   }
@@ -99,7 +99,7 @@ export class NNVirtualTreeComponent implements OnInit {
   private onCloseNode(node: InternalTreeNode) {
     node.open = false;
     node.children.forEach(x => x.display = false);
-    this.removeChildren(node);
+    this.removeRenderedChildren(node);
     this.closeNode.emit(node);
   }
 
@@ -153,36 +153,46 @@ export class NNVirtualTreeComponent implements OnInit {
   }
 
   showLoading(node: InternalTreeNode) {
-    console.log("loading");
-    this.removeChildren(node);
+    node.children = [];
+    this.removeRenderedChildren(node);
     let n = new InternalTreeNode();
-    n.label = "";
+    n.open = true;
     n.loading = true;
-    this.addChildren(node, [n]);
+    this.addRenderedChildren(node, [n]);
   }
 
   hideLoading(node: InternalTreeNode) {
-    this.removeChildren(node);
+    this.removeRenderedChildren(node);
+    node.children = [];
   }
 
-  addChildren(node: InternalTreeNode, children: InternalTreeNode[]) {
+  private addRenderedChildren(node: InternalTreeNode, children: InternalTreeNode[], index?: number) {
+    console.log("render");
     node.children = children;
+    if(!index)
+      index = node.index;
     let count = 0;
     children.forEach((x, i) => {
+      index++;
       x.display = node.open;
       x.level = node.level + 1;
-      x.index = node.index + i + 1;
+      x.index = index;
       x.left = node.left + this.paddingLeft;
       x.top = node.top + (count + 1) * this.itemHeight;
-      if (x.label != undefined && x.label.search(this.filterText) >= 0) {
-        this.displayNodes.splice(node.index + 1 + count++, 0, x);
+      if (x.loading || (x.label != undefined && x.label.search(this.filterText)) >= 0) {
+        this.displayNodes.splice(x.index , 0, x);
         this.actualHeight += this.itemHeight;
       }
+      if (x.open && x.children && x.children.length){
+        this.addRenderedChildren(x, x.children, index);
+      }
+        
     });
+    console.log("refresh");
     this.refresh(true);
   }
 
-  removeChildren(node: InternalTreeNode) {
+  private removeRenderedChildren(node: InternalTreeNode) {
     let count = 0;
     for (let i = node.index + 1; i < this.displayNodes.length; i++) {
       if (node.level < this.displayNodes[i].level)
@@ -193,5 +203,14 @@ export class NNVirtualTreeComponent implements OnInit {
     this.actualHeight -= count * this.itemHeight;
     this.displayNodes.splice(node.index + 1, count);
     this.refresh(true);
+  }
+
+  addNodeChildren(node: InternalTreeNode, children: InternalTreeNode[]) {
+    this.addRenderedChildren(node, children);
+  }
+
+  removeNodeChildren(node: InternalTreeNode) {
+    node.children = [];
+    this.removeRenderedChildren(node);
   }
 }

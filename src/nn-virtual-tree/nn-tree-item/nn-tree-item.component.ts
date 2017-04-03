@@ -3,7 +3,7 @@ import { InternalTreeNode } from '../internal-tree-node';
 
 @Component({
     selector: 'nn-tree-item',
-    template: '<div>test-{{node.label}}</div>',
+    template: '<div>{{node.label}}</div>',
 })
 export class NNTreeItem implements OnInit {
 

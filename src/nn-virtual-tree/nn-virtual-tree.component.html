@@ -8,7 +8,7 @@
                         />
                     </div>
                 </div>
-                <div *ngIf="!node.loading" (click)="onClickItem(node)" (dblclick)="onDblclickItem(node)">
+                <div [ngClass]="{'nn-tree-item-selected': node.selected}" *ngIf="!node.loading" (click)="onClickItem(node)" (dblclick)="onDblclickItem(node)">
                     <ng-container *ngTemplateOutlet="nnTreeItem; context: {node: node}"></ng-container>
                 </div>
                 <div *ngIf="node.loading" style="display: flex; flex-direction: row">
