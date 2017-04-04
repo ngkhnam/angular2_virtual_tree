@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VirtualTreeComponent } from './virtual-tree.component';
+import { NNTreeComponent } from './tree.component';
 
 describe('VirtualTreeComponent', () => {
-  let component: VirtualTreeComponent;
-  let fixture: ComponentFixture<VirtualTreeComponent>;
+  let component: NNTreeComponent;
+  let fixture: ComponentFixture<NNTreeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VirtualTreeComponent ]
+      declarations: [ NNTreeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VirtualTreeComponent);
+    fixture = TestBed.createComponent(NNTreeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

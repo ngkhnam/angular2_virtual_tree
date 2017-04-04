@@ -3,11 +3,11 @@ import { TreeNode } from './tree-node';
 import { InternalTreeNode } from './internal-tree-node';
 
 @Component({
-  selector: 'nn-virtual-tree',
-  templateUrl: './nn-virtual-tree.component.html',
-  styleUrls: ['./nn-virtual-tree.component.css']
+  selector: 'nn-tree',
+  templateUrl: './tree.component.html',
+  styleUrls: ['./tree.component.css']
 })
-export class NNVirtualTreeComponent implements OnInit {
+export class NNTreeComponent implements OnInit {
 
   @Input() width: number;
   @Input() private selectParent: boolean = false;

@@ -1,7 +1,9 @@
 {
-  "name": "angular2-virtual-tree",
-  "version": "0.0.1",
+  "name": "@nn/angular/tree",
+  "author": "Nam Nguyen (ngkhnam@gmail.com)",
+  "version": "1.0.0",
   "license": "MIT",
+  "types": "./src/tree/index.d.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

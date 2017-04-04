@@ -2,19 +2,19 @@
     <div>Display and filter large tree: 5000 node</div>
     <input type="text" style="width: 300px; margin: 5px 0" [(ngModel)]="value" (ngModelChange)="onChangeText()">
     <div style="border: 1px solid black; width: 300px">
-        <nn-virtual-tree #displayFilterTree [root]="displayFilerRoot" [showRoot]="true" [height]="250" [width]="300">
+        <nn-tree #displayFilterTree [root]="displayFilerRoot" [showRoot]="true" [height]="250" [width]="300">
             <ng-template let-node="node" #nnTreeItem>
                 <nn-tree-item [node]="node"></nn-tree-item>
             </ng-template>
-        </nn-virtual-tree>
+        </nn-tree>
     </div>
     <br/>
     <div style="margin: 5px 0">Lazy loading tree:</div>
     <div style="border: 1px solid black; width: 300px">
-        <nn-virtual-tree #lazyLoadingTree (openNode)="onOpen($event)" [root]="lazyLoadingRoot" [showRoot]="false" [height]="250" [width]="300">
+        <nn-tree #lazyLoadingTree (openNode)="onOpen($event)" [root]="lazyLoadingRoot" [showRoot]="false" [height]="250" [width]="300">
             <ng-template let-node="node" #nnTreeItem>
                 <nn-tree-item [node]="node"></nn-tree-item>
             </ng-template>
-        </nn-virtual-tree>
+        </nn-tree>
     </div>
 </div>

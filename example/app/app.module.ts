@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
-import { VirtualTreeModule } from '../../src/nn-virtual-tree/nn-virtual-tree.module';
+import { NNTreeModule } from '../../src/tree/tree.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import { VirtualTreeModule } from '../../src/nn-virtual-tree/nn-virtual-tree.mod
     BrowserModule,
     FormsModule,
     HttpModule,
-    VirtualTreeModule
+    NNTreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

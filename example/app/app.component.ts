@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { NNVirtualTreeComponent } from '../../src/nn-virtual-tree/nn-virtual-tree.component';
+import { NNTreeComponent } from '../../src/tree/tree.component';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +9,8 @@ import { NNVirtualTreeComponent } from '../../src/nn-virtual-tree/nn-virtual-tre
 export class AppComponent implements OnInit {
   title = 'app works!';
   value = "";
-  @ViewChild('displayFilterTree') displayFilterTree: NNVirtualTreeComponent;
-  @ViewChild('lazyLoadingTree') lazyLoadingTree: NNVirtualTreeComponent;
+  @ViewChild('displayFilterTree') displayFilterTree: NNTreeComponent;
+  @ViewChild('lazyLoadingTree') lazyLoadingTree: NNTreeComponent;
   displayFilerRoot = null;
   lazyLoadingRoot = null;
 

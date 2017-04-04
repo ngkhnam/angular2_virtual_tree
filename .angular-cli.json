@@ -17,7 +17,7 @@
       "test": "../example/test.ts",
       "tsconfig": "../example/tsconfig.app.json",
       "testTsconfig": "../example/tsconfig.spec.json",
-      "prefix": "ng",
+      "prefix": "nn",
       "styles": [
         "../example/styles.css"
       ],
