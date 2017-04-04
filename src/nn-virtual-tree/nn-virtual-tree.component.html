@@ -4,7 +4,7 @@
             <div [ngClass]="{'nn-tree-item-selected': node.selected}" class="nn-tree-item" *ngIf="i < numDisplayItems" [ngStyle]="{'padding-left.px': node.left, 'height.px': itemHeight, 'margin-top.px': node.top}">
                 <div (click)="onClickToogleIcon(node)">
                     <div style="width: 16px">
-                        <img class="toogle-icon" *ngIf="node.children" [src]='"../../assets/icons/toogle-children.png"' [ngClass]="{'toogle-icon-open': node.open}"
+                        <img class="toogle-icon" *ngIf="(node.children && node.children.length) || node.lazyLoading" [src]='"../../assets/icons/toogle-children.png"' [ngClass]="{'toogle-icon-open': node.open}"
                         />
                     </div>
                 </div>

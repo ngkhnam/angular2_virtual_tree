@@ -35,6 +35,7 @@ export class NNVirtualTreeComponent implements OnInit {
   private paddingLeft = 20;
   private numDisplayItems = 0;
   private _root: InternalTreeNode;
+  private _index = 0;
 
   constructor() { }
 
@@ -166,30 +167,28 @@ export class NNVirtualTreeComponent implements OnInit {
     node.children = [];
   }
 
-  private addRenderedChildren(node: InternalTreeNode, children: InternalTreeNode[], index?: number) {
-    console.log("render");
+  private addRenderedChildren(node: InternalTreeNode, children: InternalTreeNode[], noRefresh?: boolean) {
     node.children = children;
-    if(!index)
-      index = node.index;
+    this._index = node.index;
     let count = 0;
-    children.forEach((x, i) => {
-      index++;
-      x.display = node.open;
-      x.level = node.level + 1;
-      x.index = index;
-      x.left = node.left + this.paddingLeft;
-      x.top = node.top + (count + 1) * this.itemHeight;
-      if (x.loading || (x.label != undefined && x.label.search(this.filterText)) >= 0) {
-        this.displayNodes.splice(x.index , 0, x);
-        this.actualHeight += this.itemHeight;
-      }
-      if (x.open && x.children && x.children.length){
-        this.addRenderedChildren(x, x.children, index);
-      }
-        
-    });
-    console.log("refresh");
-    this.refresh(true);
+    if (children && children.length)
+      children.forEach((x, i) => {
+        this._index++;
+        x.display = node.open;
+        x.level = node.level + 1;
+        x.index = this._index;
+        x.left = node.left + this.paddingLeft;
+        x.top = node.top + (count + 1) * this.itemHeight;
+        if (x.loading || (x.label != undefined && x.label.search(this.filterText)) >= 0) {
+          this.displayNodes.splice(x.index, 0, x);
+          this.actualHeight += this.itemHeight;
+        }
+        if (x.open && x.children && x.children.length) {
+          this.addRenderedChildren(x, x.children, true);
+        }
+      });
+    if (!noRefresh)
+      this.refresh(true);
   }
 
   private removeRenderedChildren(node: InternalTreeNode) {
