@@ -1,14 +1,17 @@
 <div #container [ngStyle]="{'height.px': height, 'width.px': width}" style="overflow: auto" (scroll)="refresh()">
     <div class="nn-tree-content" [style.height.px]="actualHeight">
         <ng-template ngFor let-node [ngForOf]="renderNodes" let-i="index">
-            <div [ngClass]="{'nn-tree-item-selected': node.selected}" class="nn-tree-item" *ngIf="i < numDisplayItems" [ngStyle]="{'padding-left.px': node.left, 'height.px': itemHeight, 'margin-top.px': node.top}">
+            <div [ngClass]="{'nn-tree-item-selected': node.selected}" class="nn-tree-item" 
+                *ngIf="i < numDisplayItems" style=""
+                [ngStyle]="{'padding-left.px': node.left, 'height.px': itemHeight, 'margin-top.px': node.top}">
                 <div (click)="onClickToogleIcon(node)">
                     <div style="width: 16px">
-                        <img class="toogle-icon" *ngIf="(node.children && node.children.length) || node.lazyLoading" [src]='"../../assets/icons/toogle-children.png"' [ngClass]="{'toogle-icon-open': node.open}"
+                        <img class="toogle-icon" *ngIf="node.showToogleIcon" src="../../assets/icons/toogle-children.png" 
+                            [ngClass]="{'toogle-icon-open': node.open}"
                         />
                     </div>
                 </div>
-                <div [ngClass]="{'nn-tree-item-selected': node.selected}" *ngIf="!node.loading" (click)="onClickItem(node)" (dblclick)="onDblclickItem(node)">
+                <div style="padding-right: 4px;" [ngClass]="{'nn-tree-item-selected': node.selected}" *ngIf="!node.loading" (click)="onClickItem(node)" (dblclick)="onDblclickItem(node)">
                     <ng-container *ngTemplateOutlet="nnTreeItem; context: {node: node}"></ng-container>
                 </div>
                 <div *ngIf="node.loading" style="display: flex; flex-direction: row">

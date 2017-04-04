@@ -57,6 +57,7 @@ export class NNVirtualTreeComponent implements OnInit {
   private initTreeData(node: InternalTreeNode, level: number) {
     node.left = level * this.paddingLeft - (!this.showRoot ? this.paddingLeft : 0);
     node.level = level;
+    node.showToogleIcon = node.lazyLoading ? true : (node.children && node.children.length > 0) ? true : false;
     if (node.display) {
       this.displayNodes.push(node);
     }
@@ -171,7 +172,7 @@ export class NNVirtualTreeComponent implements OnInit {
     node.children = children;
     this._index = node.index;
     let count = 0;
-    if (children && children.length)
+    if (children && children.length) {
       children.forEach((x, i) => {
         this._index++;
         x.display = node.open;
@@ -187,6 +188,8 @@ export class NNVirtualTreeComponent implements OnInit {
           this.addRenderedChildren(x, x.children, true);
         }
       });
+    }
+
     if (!noRefresh)
       this.refresh(true);
   }
@@ -205,6 +208,11 @@ export class NNVirtualTreeComponent implements OnInit {
   }
 
   addNodeChildren(node: InternalTreeNode, children: InternalTreeNode[]) {
+    if(children){
+      children.forEach(n => {
+        n.showToogleIcon = n.lazyLoading ? true : (n.children && n.children.length > 0) ? true : false;
+      });
+    }
     this.addRenderedChildren(node, children);
   }
 
