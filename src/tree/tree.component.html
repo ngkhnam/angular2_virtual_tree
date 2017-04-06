@@ -6,12 +6,13 @@
                 [ngStyle]="{'padding-left.px': node.left, 'height.px': itemHeight, 'margin-top.px': node.top}">
                 <div (click)="onClickToogleIcon(node)">
                     <div style="width: 16px">
-                        <img class="toogle-icon" *ngIf="node.showToogleIcon" src="../../assets/icons/toogle-children.png" 
+                        <img class="toogle-icon" *ngIf="node.isLeaf" src="../../assets/icons/toogle-children.png" 
                             [ngClass]="{'toogle-icon-open': node.open}"
                         />
                     </div>
                 </div>
-                <div style="padding-right: 4px;" [ngClass]="{'nn-tree-item-selected': node.selected}" *ngIf="!node.loading" (click)="onClickItem(node)" (dblclick)="onDblclickItem(node)">
+                <div style="padding-right: 4px;" [ngClass]="{'nn-tree-item-selected': node.selected}" 
+                    *ngIf="!node.loading" (click)="onClickItem(node)" (dblclick)="onDblclickItem(node)">
                     <ng-container *ngTemplateOutlet="nnTreeItem; context: {node: node}"></ng-container>
                 </div>
                 <div *ngIf="node.loading" style="display: flex; flex-direction: row">

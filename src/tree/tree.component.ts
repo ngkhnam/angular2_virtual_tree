@@ -57,7 +57,7 @@ export class NNTreeComponent implements OnInit {
   private initTreeData(node: InternalTreeNode, level: number) {
     node.left = level * this.paddingLeft - (!this.showRoot ? this.paddingLeft : 0);
     node.level = level;
-    node.showToogleIcon = node.lazyLoading ? true : (node.children && node.children.length > 0) ? true : false;
+    node.isLeaf = node.lazyLoading ? true : (node.children && node.children.length > 0) ? true : false;
     if (node.display) {
       this.displayNodes.push(node);
     }
@@ -210,7 +210,7 @@ export class NNTreeComponent implements OnInit {
   addNodeChildren(node: InternalTreeNode, children: InternalTreeNode[]) {
     if(children){
       children.forEach(n => {
-        n.showToogleIcon = n.lazyLoading ? true : (n.children && n.children.length > 0) ? true : false;
+        n.isLeaf = n.lazyLoading ? true : (n.children && n.children.length > 0) ? true : false;
       });
     }
     this.addRenderedChildren(node, children);

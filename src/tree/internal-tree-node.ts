@@ -10,5 +10,5 @@ export class InternalTreeNode extends TreeNode{
     index: number;
     selected: boolean;
     loading: boolean;
-    showToogleIcon: boolean;
+    isLeaf: boolean;
 }
