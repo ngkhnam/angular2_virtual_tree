@@ -1,0 +1,41 @@
+.nn-tree-item{
+    /*position: absolute; */
+    display: flex; 
+    flex-direction: row;
+    user-select: none;
+    cursor: default;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+.nn-tree-item-selected{
+    background-color: dodgerblue;
+    color: white;
+}
+
+.nn-tree-content{
+    display: flex; 
+    flex-direction: column;
+}
+
+.toogle-icon-open{
+    transform: rotate(90deg);
+}
+.toogle-icon{
+    height: 9px; 
+    width: 8px; 
+    margin-top: 4px;
+    margin-left: 4px;
+}
+
+.arrow-right {
+  width: 0; 
+  height: 0; 
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid black;
+  position: relative;
+  top: 5px;
+  left: 5px;
+}
+

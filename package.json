@@ -1,52 +1,37 @@
 {
-  "name": "@nn/angular/tree",
-  "author": "Nam Nguyen (ngkhnam@gmail.com)",
-  "version": "1.0.0",
-  "license": "MIT",
-  "types": "./src/tree/index.d.ts",
+  "name": "nn-angular-tree",
+  "version": "1.0.2",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "transpile": "ngc",
+    "package": "rollup -c",
+    "minify": "uglifyjs dist/bundles/nn-tree.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/nn-tree.umd.min.js",
+    "build": "npm run transpile && npm run package && npm run minify"
   },
-  "private": true,
-  "dependencies": {
-    "@angular/animations": "^4.0.0",
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/compiler-cli": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@angular/forms": "^4.0.0",
-    "@angular/http": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/platform-browser-dynamic": "^4.0.0",
-    "@angular/platform-server": "^4.0.0",
-    "@angular/router": "^4.0.0",
-    "core-js": "^2.4.1",
-    "rxjs": "^5.1.0",
-    "typescript": "^2.2.1",
-    "zone.js": "^0.7.6"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NamNgKh/angular2_virtual_tree"
   },
+  "author": {
+    "name": "Nguyen Khoa Nam",
+    "email": "ngkhnam@gmail.com"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
   "devDependencies": {
-    "@angular/cli": "1.0.0-rc.2",
-    "@angular/compiler-cli": "^2.4.0",
-    "@types/jasmine": "2.5.38",
-    "@types/node": "~6.0.60",
-    "codelyzer": "~2.0.0",
-    "jasmine-core": "~2.5.2",
-    "jasmine-spec-reporter": "~3.2.0",
-    "karma": "~1.4.1",
-    "karma-chrome-launcher": "~2.0.0",
-    "karma-cli": "~1.0.1",
-    "karma-jasmine": "~1.1.0",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "karma-coverage-istanbul-reporter": "^0.2.0",
-    "protractor": "~5.1.0",
-    "ts-node": "~2.0.0",
-    "tslint": "~4.5.0",
-    "typescript": "~2.0.0"
+    "@angular/compiler": "^4.0.1",
+    "@angular/compiler-cli": "^4.0.1",
+    "rollup": "^0.41.6",
+    "typescript": "^2.2.2",
+    "uglify-js": "^2.8.22"
+  },
+  "dependencies": {
+    "@angular/common": "^4.0.1",
+    "@angular/core": "^4.0.1",
+    "rxjs": "^5.3.0",
+    "zone.js": "^0.8.5"
   }
 }
