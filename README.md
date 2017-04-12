@@ -36,8 +36,13 @@ export class AppModule { }
 ```
 
 ```xml
-<!-- You can now use your library component in app.component.html -->
-<nn-tree [root]="root"></nn-tree>
+<!-- You can now use tree component in app.component.html -->
+<nn-tree [root]="root">
+	<ng-template let-node="node" #nnTreeItem> 
+		<!-- you can custom tree item by relace this item with your item -->
+        <nn-tree-item [node]="node"></nn-tree-item>
+    </ng-template>
+</nn-tree>
 ```
 with root follow NNTreeNode class
 ```
@@ -47,6 +52,18 @@ let root = {label:'root', open: true ,children:[
   {label: 'child 3'}
 ]}
 ```
+## Feature:
+- Single selection and multi selection in future
+- Customizable tree item.
+- Lazy loading
+- Support a large tree wirh virtual scrolling
+
+## Input Properties:
+- showRoot:boolean mean display or hide root node
+- loadingIcon:string is url of icon when using lazy loading feature
+- loadingText:string is a message text display when wait for load node.
+- height/width:number for change size of tree
+
 ## Support event:
 
 - changeselection: $event is new select node:NNTreeNode
@@ -56,7 +73,11 @@ let root = {label:'root', open: true ,children:[
 Examples:
 ```xml
 
-<nn-tree [root]="root" (openNode)="onOpenNode($event)"><nn-tree>
+<nn-tree [root]="root" (openNode)="onOpenNode($event)">
+	<ng-template let-node="node" #nnTreeItem> 
+        <nn-tree-item [node]="node"></nn-tree-item> 
+    </ng-template>
+<nn-tree>
 
 ```
 ## License
