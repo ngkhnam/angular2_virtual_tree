@@ -80,6 +80,11 @@ Examples:
 <nn-tree>
 
 ```
+
+## Example
+
+[Example here](https://github.com/NamNgKh/angular2-tree-example)
+
 ## License
 
 MIT © [Nguyen Khoa Nam](mailto:ngkhnam@gmail.com)
