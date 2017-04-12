@@ -1,6 +1,6 @@
 {
   "name": "nn-angular-tree",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,10 @@
     "email": "ngkhnam@gmail.com"
   },
   "keywords": [
-    "angular"
+    "angular",
+    "angular tree",
+    "virtual tree",
+    "tree"
   ],
   "license": "MIT",
   "devDependencies": {
