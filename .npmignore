@@ -1,6 +1,5 @@
 # Node
 node_modules/*
-src/*
 npm-debug.log
 
 # DO NOT IGNORE TYPESCRIPT FILES FOR NPM
