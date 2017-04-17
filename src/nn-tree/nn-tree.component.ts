@@ -10,18 +10,20 @@ import { NNInternalTreeNode } from './nn-internal-tree-node';
 export class NNTreeComponent implements OnInit {
 
   @Input() width: number;
-  @Input() private selectParent: boolean = false;
   @Input() private lazyLoading = false;
   @Input() loadingText: string = "Loading...";
   @Input() loadingIcon: string = "";
   @Input() private showRoot: boolean = true;
   @Input() private height: number = 100;
-  @Output() changeselection: EventEmitter<NNInternalTreeNode> = new EventEmitter();
+  @Input() canSelect: any;
+  @Input() selectionMode: string = "single";
+  @Output() changeSelection: EventEmitter<NNInternalTreeNode> = new EventEmitter();
   @Output() openNode = new EventEmitter<NNInternalTreeNode>();
   @Output() closeNode = new EventEmitter<NNInternalTreeNode>();
   @ContentChild("nnTreeItem") nnTreeItem: TemplateRef<any>;
   @ContentChild("nnTreeToogleIcon") nnTreeToogleIcon: TemplateRef<any>;
   @ViewChild("container") private container: ElementRef;
+  selectedNodes: NNInternalTreeNode[] = [];
 
   private renderNodes: Array<NNInternalTreeNode> = [];
   private displayNodes: Array<NNInternalTreeNode> = [];
@@ -30,14 +32,15 @@ export class NNTreeComponent implements OnInit {
   private itemsPerViewport: number = 5;
   private startIndex: number = 0;
   private actualHeight: number = 0;
-  private selectedNode: NNInternalTreeNode;
   private filterText: string = "";
   private paddingLeft = 20;
   private numDisplayItems = 0;
   private _root: NNInternalTreeNode;
   private _index = 0;
 
-  constructor() { }
+  constructor() {
+    this.canSelect = this.canSelectNode;
+  }
 
   ngOnInit() { }
 
@@ -106,15 +109,27 @@ export class NNTreeComponent implements OnInit {
   }
 
   private onClickItem(node: NNInternalTreeNode) {
-    if (node.children && node.children.length > 0 && !this.selectParent) {
+    if (!this.canSelect(node) || "none".valueOf() == this.selectionMode.valueOf()) {
       return;
     }
-    if (this.selectedNode != node) {
-      if (this.selectedNode)
-        this.selectedNode.selected = false;
-      this.selectedNode = node;
-      this.selectedNode.selected = true;
-      this.changeselection.emit(node);
+    if ("single".valueOf() == this.selectionMode.valueOf()) {
+      if (this.selectedNodes[0] != node) {
+        this.selectedNodes[0].selected = false;
+        this.selectedNodes[0] = node;
+        this.selectedNodes[0].selected = true;
+        this.changeSelection.emit(node);
+      }
+    }
+    else if ("multiple".valueOf() == this.selectionMode.valueOf()) {
+      let index = this.selectedNodes.indexOf(node);
+      if (index >= 0){
+        this.selectedNodes.splice(index, 1);
+        node.selected = false;
+      }
+      else{
+        this.selectedNodes.push(node);
+        node.selected = true;
+      }
     }
   }
 
@@ -208,7 +223,7 @@ export class NNTreeComponent implements OnInit {
   }
 
   addNodeChildren(node: NNInternalTreeNode, children: NNInternalTreeNode[]) {
-    if(children){
+    if (children) {
       children.forEach(n => {
         n.isLeaf = n.lazyLoading ? true : (n.children && n.children.length > 0) ? true : false;
       });
@@ -219,5 +234,9 @@ export class NNTreeComponent implements OnInit {
   removeNodeChildren(node: NNInternalTreeNode) {
     node.children = [];
     this.removeRenderedChildren(node);
+  }
+
+  canSelectNode(node: NNTreeNode): boolean {
+    return true;
   }
 }
