@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NNTreeComponent } from './nn-tree.component';
 import { NNTreeItem } from './nn-tree-item/nn-tree-item.component';
+import { NNTreeNode } from './nn-tree-node';
 
 @NgModule({
   imports: [
@@ -12,4 +13,4 @@ import { NNTreeItem } from './nn-tree-item/nn-tree-item.component';
 })
 export class NNTreeModule { }
 
-export {NNTreeItem, NNTreeComponent};
+export {NNTreeItem, NNTreeComponent, NNTreeNode};

@@ -53,20 +53,23 @@ let root = {label:'root', open: true ,children:[
 ]}
 ```
 ## Feature:
-- Single selection and multi selection in future
+- Single/Multiple selection and custom selection with [canSelect]
 - Customizable tree item.
 - Lazy loading
 - Support a large tree wirh virtual scrolling
+- Filtering
 
 ## Input Properties:
 - showRoot:boolean mean display or hide root node
 - loadingIcon:string is url of icon when using lazy loading feature
 - loadingText:string is a message text display when wait for load node.
 - height/width:number for change size of tree
+- canSelect is a function with input is NNTreeNode and return boolean. if true, this node can selected, if false this node can be selected. User can custom selection by implement a function and pass it to this property.
+- selectionMode: string support none/single/multiple selection
+- selectedNodes is an array of selected nodes.
 
 ## Support event:
-
-- changeselection: $event is new select node:NNTreeNode
+- selectionChange: $event is new select node:NNTreeNode
 - openNode: $event is opened node:NNTreeNode
 - closeNode: $event is closed node:NNTreeNode
 

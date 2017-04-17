@@ -17,7 +17,7 @@ export class NNTreeComponent implements OnInit {
   @Input() private height: number = 100;
   @Input() canSelect: any;
   @Input() selectionMode: string = "single";
-  @Output() changeSelection: EventEmitter<NNInternalTreeNode> = new EventEmitter();
+  @Output() selectionChange: EventEmitter<NNTreeNode> = new EventEmitter();
   @Output() openNode = new EventEmitter<NNInternalTreeNode>();
   @Output() closeNode = new EventEmitter<NNInternalTreeNode>();
   @ContentChild("nnTreeItem") nnTreeItem: TemplateRef<any>;
@@ -61,6 +61,10 @@ export class NNTreeComponent implements OnInit {
     node.left = level * this.paddingLeft - (!this.showRoot ? this.paddingLeft : 0);
     node.level = level;
     node.isLeaf = node.lazyLoading ? true : (node.children && node.children.length > 0) ? true : false;
+    if(node.selected && (this.selectedNodes.length && "single".valueOf() == this.selectionMode.valueOf())
+    || ("multiple".valueOf() == this.selectionMode.valueOf())){
+      this.selectedNodes.push(node);
+    }
     if (node.display) {
       this.displayNodes.push(node);
     }
@@ -113,12 +117,16 @@ export class NNTreeComponent implements OnInit {
       return;
     }
     if ("single".valueOf() == this.selectionMode.valueOf()) {
-      if (this.selectedNodes[0] != node) {
+      if(!this.selectedNodes.length){
+        node.selected = true;
+        this.selectedNodes.push(node);
+      }
+      else{
         this.selectedNodes[0].selected = false;
         this.selectedNodes[0] = node;
         this.selectedNodes[0].selected = true;
-        this.changeSelection.emit(node);
       }
+      this.selectionChange.emit(node);
     }
     else if ("multiple".valueOf() == this.selectionMode.valueOf()) {
       let index = this.selectedNodes.indexOf(node);
@@ -130,6 +138,7 @@ export class NNTreeComponent implements OnInit {
         this.selectedNodes.push(node);
         node.selected = true;
       }
+      this.selectionChange.emit(node);
     }
   }
 
