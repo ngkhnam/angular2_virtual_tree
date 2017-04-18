@@ -2,7 +2,7 @@
     <div class="nn-tree-content" [style.height.px]="actualHeight">
         <ng-template ngFor let-node [ngForOf]="renderNodes" let-i="index">
             <div [ngClass]="{'nn-tree-item-selected': node.selected}" class="nn-tree-item" 
-                *ngIf="i < numDisplayItems" style=""
+                *ngIf="i < numDisplayItems"
                 [ngStyle]="{'padding-left.px': node.left, 'height.px': itemHeight, 'margin-top.px': node.top}">
                 <div (click)="onClickToogleIcon(node)">
                     <div style="width: 16px">

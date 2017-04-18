@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, ElementRef, EventEmitter, ContentChild, TemplateRef, Output } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, HostListener, ViewChild, EventEmitter, ContentChild, TemplateRef, Output, ElementRef } from '@angular/core';
 import { NNTreeNode } from './nn-tree-node';
 import { NNInternalTreeNode } from './nn-internal-tree-node';
 
@@ -9,7 +9,7 @@ import { NNInternalTreeNode } from './nn-internal-tree-node';
 })
 export class NNTreeComponent implements OnInit {
 
-  @Input() width: number;
+  @Input() width: number; 
   @Input() private lazyLoading = false;
   @Input() loadingText: string = "Loading...";
   @Input() loadingIcon: string = "";
@@ -25,20 +25,20 @@ export class NNTreeComponent implements OnInit {
   @ViewChild("container") private container: ElementRef;
   selectedNodes: NNInternalTreeNode[] = [];
 
-  private renderNodes: Array<NNInternalTreeNode> = [];
+  renderNodes: Array<NNInternalTreeNode> = [];
   private displayNodes: Array<NNInternalTreeNode> = [];
   private orginalNodes: Array<NNInternalTreeNode> = [];
-  private itemHeight: number = 20;
+  itemHeight: number = 20;
   private itemsPerViewport: number = 5;
   private startIndex: number = 0;
-  private actualHeight: number = 0;
+  actualHeight: number = 0;
   private filterText: string = "";
   private paddingLeft = 20;
-  private numDisplayItems = 0;
+  numDisplayItems = 0;
   private _root: NNInternalTreeNode;
   private _index = 0;
 
-  constructor() {
+  constructor(private el: ElementRef) {
     this.canSelect = this.canSelectNode;
   }
 
