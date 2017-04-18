@@ -14,7 +14,7 @@ export class NNTreeComponent implements OnInit {
   @Input() loadingText: string = "Loading...";
   @Input() loadingIcon: string = "";
   @Input() private showRoot: boolean = true;
-  @Input() private height: number = 100;
+  @Input() height: number = 100;
   @Input() canSelect: any;
   @Input() selectionMode: string = "single";
   @Output() selectionChange: EventEmitter<NNTreeNode> = new EventEmitter();
@@ -76,7 +76,7 @@ export class NNTreeComponent implements OnInit {
       });
   }
 
-  private refresh(force?: boolean) {
+  refresh(force?: boolean) {
     var showFromIndex = Math.floor(this.container.nativeElement.scrollTop / this.itemHeight);
     if (this.startIndex != showFromIndex || force) {
       this.startIndex = force ? this.startIndex : showFromIndex;

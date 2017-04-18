@@ -1,6 +1,6 @@
 {
   "name": "nn-angular-tree",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "A tree component for angular 2+support display a large of tree nodes, easily to use and custom tree node...",
   "main": "index.js",
   "scripts": {

@@ -85,7 +85,7 @@ Examples:
 ```
 
 ## Example
-[Online demo](https://namngkh.github.io/angular2-tree-example/)
+[Online demo](https://namngkh.github.io/angular2-tree-example/)    
 [Example source here](https://github.com/NamNgKh/angular2-tree-example)
 
 ## License
